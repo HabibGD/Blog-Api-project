@@ -16,14 +16,14 @@ exports.registerUser =  async (req, res) => {
             
         } catch (error) {
 
-            // if(error instanceof ValidationError){
-            //     const message = 'Invalid input'
-            //     return res.status(401).json({ message: message })
-            // }
-            // if(error instanceof UniqueConstraintError){
-            //     const message = 'this username existe...'
-            //     return res.status(401).json({ message: message })
-            // }
+            if(error instanceof ValidationError){
+                const message = 'Invalid input'
+                return res.status(401).json({ message: message })
+            }
+            if(error instanceof UniqueConstraintError){
+                const message = 'this username existe...'
+                return res.status(401).json({ message: message })
+            }
             
             const message = 'we found please try later'
             res.status(500).json({ message: message })
