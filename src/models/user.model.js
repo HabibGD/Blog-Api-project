@@ -20,7 +20,6 @@ const User = sequelize.define('User', {
         validate: {
             notEmpty: { msg: 'vous devez saisir un mot de passe...' }
         }
-
     }
 },
     

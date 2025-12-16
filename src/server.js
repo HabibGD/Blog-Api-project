@@ -3,7 +3,8 @@ const express = require('express')
 const sequelize = require('./config/database')
 const User = require('./models/user.model')
 const userRoutes = require('./routes/user.routes')
-
+const Article = require('./models/article.model')
+const articleRoute = require('./routes/article.route')
 
 
 const app = express()
@@ -48,7 +49,7 @@ synchroniserModels()
 // Users enpoints
 
 app.use('/api/users', userRoutes)
-
+app.use('/api/articles', articleRoute)
 
 
 

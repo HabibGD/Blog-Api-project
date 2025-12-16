@@ -49,11 +49,19 @@ exports.loginUser = async (req, res) => {
             return res.status(401).json({ message: message })
         }
 
+        // Access Token
+
         const token = jwt.sign(
             { userId: user.id },
                 privateKey,
             { expiresIn: '24h' }
         )
+
+        // Refresh Token
+
+
+
+        // stocker refresh token sur redis
 
         const message = 'User connected successfully...'
         res.json({ message: message, data: user, token })
