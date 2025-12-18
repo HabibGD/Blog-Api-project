@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt')
 
 const privateKey = process.env.PRIVATE_KEY
 
-exports.registerUser =  async (req, res) => {
+exports.registerUser =  async (req, res, next) => {
 
         try {
             const user = await User.create(req.body)
@@ -15,38 +15,29 @@ exports.registerUser =  async (req, res) => {
             res.json({ message: message })
             
         } catch (error) {
-
-            if(error instanceof ValidationError){
-                const message = 'Invalid input'
-                return res.status(401).json({ message: message })
-            }
-            if(error instanceof UniqueConstraintError){
-                const message = 'this username existe...'
-                return res.status(401).json({ message: message })
-            }
-            
-            const message = 'we found please try later'
-            res.status(500).json({ message: message })
+           next(error)
         }
     }
 
 
-exports.loginUser = async (req, res) => {
+exports.loginUser = async (req, res, next) => {
 
     try {
 
         const user = await User.findOne({ where: { username: req.body.username } })
 
         if(!user){
-            const message = 'This user doesn\'t existe...'
-            return res.status(401).json({ message: message })
+            const err = new Error('This user doesn\'t existe...')
+            err.statusCode = 409
+            return next(err)
         }
 
         const validePassword = await bcrypt.compare(req.body.password, user.password)
 
         if(!validePassword){
-            const message = 'Your password is not correcte..'
-            return res.status(401).json({ message: message })
+            const err = new Error('Your password is not correcte..')
+            err.statusCode = 400
+            return next(err)
         }
 
         // Access Token
@@ -68,8 +59,6 @@ exports.loginUser = async (req, res) => {
         
         
     } catch (error) {
-        
-        const message = 'We found error with the server please try later...'
-        res.status(500).json({ message: message })
+        next(error)
     }
 }

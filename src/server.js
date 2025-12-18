@@ -5,6 +5,9 @@ const User = require('./models/user.model')
 const userRoutes = require('./routes/user.routes')
 const Article = require('./models/article.model')
 const articleRoute = require('./routes/article.route')
+const errorHandler = require('./middlewares/errorHandler')
+
+
 
 
 const app = express()
@@ -35,7 +38,7 @@ async function synchroniserModels(){
 
     try {
         
-        await sequelize.sync({ alter: true })
+        await sequelize.sync({ force: true })
         console.log(`Synchronisation reuissi...`)
 
     } catch (error) {
@@ -57,9 +60,9 @@ app.use('/api/articles', articleRoute)
 
 
 
+// Middleware d'erreur
 
-
-
+app.use(errorHandler)
 
 app.listen(PORT, () => console.log(`vous utilisez le port : ${PORT}`))
 
