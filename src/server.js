@@ -8,6 +8,12 @@ const articleRoute = require('./routes/article.route')
 const errorHandler = require('./middlewares/errorHandler')
 const Comment = require('./models/comment.model')
 const commentRoute = require('./routes/comment.route')
+const swaggerUi = require('swagger-ui-express')
+const swaggerSpec = require('./swagger')
+
+
+
+
 
 
 const app = express()
@@ -15,6 +21,7 @@ const PORT = process.env.PORT
 
 
 app.use(express.json())
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
 // Creer une connexion a la base de donnee
 
