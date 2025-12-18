@@ -5,7 +5,7 @@ const { DataTypes } = require('sequelize')
 
 const Comment = sequelize.define('Comment', {
 
-    description: {
+    content: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
@@ -13,7 +13,22 @@ const Comment = sequelize.define('Comment', {
         }
     },
 
-
-
+    user_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+            isInt: { msg: 'Id doit etre en entier' }
+        }
+    },
+    article_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+            isInt: { msg: 'Id doit etre en entier' }
+        }
+    },
 
 })
+
+
+module.exports = Comment

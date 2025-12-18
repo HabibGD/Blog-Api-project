@@ -6,8 +6,8 @@ const userRoutes = require('./routes/user.routes')
 const Article = require('./models/article.model')
 const articleRoute = require('./routes/article.route')
 const errorHandler = require('./middlewares/errorHandler')
-
-
+const Comment = require('./models/comment.model')
+const commentRoute = require('./routes/comment.route')
 
 
 const app = express()
@@ -38,7 +38,7 @@ async function synchroniserModels(){
 
     try {
         
-        await sequelize.sync({ force: true })
+        await sequelize.sync({ alter: true })
         console.log(`Synchronisation reuissi...`)
 
     } catch (error) {
@@ -53,7 +53,7 @@ synchroniserModels()
 
 app.use('/api/users', userRoutes)
 app.use('/api/articles', articleRoute)
-
+app.use('/api/comments', commentRoute)
 
 
 
